@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>University College London — Fiction Wiki</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --paper: #fefcf8;
+    --ink: #1a1714;
+    --ink-muted: #6b6560;
+    --ink-faint: #b8b2aa;
+    --accent: #8b2635;
+    --accent-soft: #f0e8e9;
+    --gold: #c4973a;
+    --gold-soft: #faf3e4;
+    --border: #e2ddd6;
+    --border-strong: #ccc5bb;
+    --wip: #e8a020;
+    --wip-bg: #fef6e4;
+    --tag-bg: #ede9e2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 260px;
+    background: var(--paper);
+    border-right: 1px solid var(--border);
+    padding: 32px 0;
+    overflow-y: auto;
+    z-index: 100;
+  }
+
+  .sidebar-logo {
+    padding: 0 24px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .sidebar-logo .emblem {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .sidebar-logo .uni-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+
+  .sidebar-logo .fiction-tag {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-section {
+    padding: 0 12px;
+    margin-bottom: 8px;
+  }
+
+  .nav-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 6px 12px 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--ink-muted);
+    font-size: 13.5px;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+
+  .nav-item:hover { background: var(--tag-bg); color: var(--ink); }
+  .nav-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+
+  .nav-item .icon { font-size: 14px; width: 18px; text-align: center; }
+
+  .nav-item .wip-dot {
+    margin-left: auto;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--wip);
+    opacity: 0.7;
+  }
+
+  /* MAIN */
+  .main {
+    margin-left: 260px;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    color: #f0ece4;
+    padding: 80px 80px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 50% at 80% 50%, rgba(139,38,53,0.25) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(196,151,58,0.12) 0%, transparent 70%);
+  }
+
+  .hero-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 700;
+    line-height: 1.1;
+    position: relative;
+    letter-spacing: -0.01em;
+    max-width: 700px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: #d4a8ae;
+  }
+
+  .hero-tagline {
+    margin-top: 20px;
+    font-size: 15px;
+    color: #a09890;
+    max-width: 520px;
+    line-height: 1.6;
+    position: relative;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+  }
+
+  .stat-item { }
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #f0ece4;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: #7a736b;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  /* CONTENT AREA */
+  .content {
+    padding: 56px 80px;
+    max-width: 1100px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 56px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-icon {
+    font-size: 18px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .wip-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    background: var(--wip-bg);
+    color: var(--wip);
+    border: 1px solid #f0d090;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
+  .wip-badge::before { content: '◐'; font-size: 9px; }
+
+  /* INTRO TEXT */
+  .intro-block {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+  }
+
+  .intro-block p {
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.8;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .intro-block p + p { margin-top: 14px; }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .card:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .card:hover::before { opacity: 1; }
+
+  .card.wip-card { background: var(--wip-bg); border-color: #f0d090; }
+  .card.wip-card::before { background: var(--wip); }
+
+  .card-icon { font-size: 22px; margin-bottom: 10px; }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 12px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--tag-bg);
+    color: var(--ink-muted);
+    letter-spacing: 0.03em;
+  }
+
+  .tag.accent { background: var(--accent-soft); color: var(--accent); }
+  .tag.gold { background: var(--gold-soft); color: #a07828; }
+
+  /* TABLE */
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .info-table tr { border-bottom: 1px solid var(--border); }
+  .info-table tr:last-child { border-bottom: none; }
+
+  .info-table td {
+    padding: 13px 18px;
+    font-size: 14px;
+    vertical-align: top;
+  }
+
+  .info-table td:first-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    width: 160px;
+    padding-right: 0;
+    white-space: nowrap;
+  }
+
+  .info-table td:last-child {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 6px; bottom: 6px;
+    width: 1px;
+    background: var(--border-strong);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 7px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--accent);
+  }
+
+  .timeline-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    margin-bottom: 3px;
+  }
+
+  .timeline-text {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.65;
+  }
+
+  .timeline-text strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--gold-soft);
+    border: 1px solid #e8d08a;
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin: 20px 0;
+  }
+
+  .callout-icon { font-size: 16px; margin-top: 1px; }
+  .callout-text { font-size: 13.5px; color: #7a5a18; line-height: 1.6; }
+
+  /* TWO COL */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  /* PROPERTY ROW */
+  .prop-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+
+  .prop-row:last-child { border-bottom: none; }
+
+  .prop-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    min-width: 160px;
+  }
+
+  .prop-val { color: var(--ink); }
+
+  /* EMPTY STATE */
+  .empty {
+    padding: 32px;
+    text-align: center;
+    background: var(--paper);
+    border: 1px dashed var(--border-strong);
+    border-radius: 10px;
+    color: var(--ink-faint);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+  /* anchor targets shouldn't sit flush against the edge */
+  .section, .hero { scroll-margin-top: 16px; }
+
+  /* MOBILE MENU BUTTON (hidden on desktop) */
+  .menu-btn {
+    display: none;
+    position: fixed;
+    top: 16px; left: 16px;
+    z-index: 200;
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--ink);
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,23,20,0.4);
+    z-index: 99;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .menu-btn { display: flex; }
+
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      width: 260px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.15);
+    }
+
+    .sidebar.open { transform: translateX(0); }
+
+    .sidebar.open ~ .sidebar-overlay { display: block; }
+
+    .main { margin-left: 0; }
+
+    .hero { padding: 96px 24px 48px; }
+
+    .hero-stats { flex-wrap: wrap; gap: 24px 32px; }
+
+    .content { padding: 40px 20px; }
+
+    .two-col { grid-template-columns: 1fr; }
+
+    .cards-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 88px 18px 40px; }
+    .hero-tagline { font-size: 14px; }
+    .content { padding: 32px 16px; }
+    .info-table td:first-child { width: 110px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</button>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="emblem">Fiction Wiki</div>
+    <div class="uni-name">University College London</div>
+    <div class="fiction-tag">worldbuilding</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Overview</div>
+    <a href="#overview" class="nav-item active"><span class="icon">🏛️</span> About UCL</a>
+    <a href="#history" class="nav-item"><span class="icon">📜</span> History</a>
+    <a href="#facts" class="nav-item"><span class="icon">📋</span> Key Facts</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Academic</div>
+    <a href="#faculties" class="nav-item"><span class="icon">🎓</span> Faculties <span class="wip-dot"></span></a>
+    <a href="#departments" class="nav-item"><span class="icon">📚</span> Departments <span class="wip-dot"></span></a>
+    <a href="#libraries" class="nav-item"><span class="icon">📖</span> Libraries <span class="wip-dot"></span></a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Campus Life</div>
+    <a href="#spaces" class="nav-item"><span class="icon">🏗️</span> Campus Spaces</a>
+    <a href="#clubs" class="nav-item"><span class="icon">🎭</span> Clubs & Societies <span class="wip-dot"></span></a>
+    <a href="#sports" class="nav-item"><span class="icon">⚽</span> Sports & Gym <span class="wip-dot"></span></a>
+    <a href="#dining" class="nav-item"><span class="icon">☕</span> Dining <span class="wip-dot"></span></a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Student Life</div>
+    <a href="#housing" class="nav-item"><span class="icon">🏠</span> Housing <span class="wip-dot"></span></a>
+    <a href="#notable" class="nav-item"><span class="icon">✨</span> Notable Alumni <span class="wip-dot"></span></a>
+    <a href="#traditions" class="nav-item"><span class="icon">🕯️</span> Traditions <span class="wip-dot"></span></a>
+  </div>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero" id="overview">
+    <div class="hero-meta">📍 Bloomsbury, London · Est. 1826</div>
+    <h1>University College<br><em>London</em></h1>
+    <p class="hero-tagline">
+      Where ambition meets tradition, and the brightest minds discover that keeping up is a different kind of battle entirely.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-value">1826</div>
+        <div class="stat-label">Founded</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">~42k</div>
+        <div class="stat-label">Students</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">11</div>
+        <div class="stat-label">Faculties</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">#3</div>
+        <div class="stat-label">UK Ranking (QS 2024)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ABOUT -->
+    <div class="section">
+      <div class="intro-block">
+        <p>Nestled in the heart of Bloomsbury, London, University College London has stood for nearly two centuries — a place where ambition meets tradition, where the brightest minds come to prove themselves against the weight of history.</p>
+        <p>Founded in 1826, UCL was the first university in England to open its doors regardless of religion or background. Its grand portico, its echoing halls, its libraries stacked floor to ceiling — all of it carries the quiet pressure of expectation.</p>
+        <p>This is where students dream of arriving. And where, once inside, they discover that keeping up is a different kind of battle entirely.</p>
+      </div>
+
+      <div class="callout">
+        <span class="callout-icon">💡</span>
+        <span class="callout-text">
+          <strong>Writer's Note:</strong> UCL is a real institution — but in this fiction, certain details (clubs, characters, events) are invented or altered for narrative purposes. Use this wiki as a living document.
+        </span>
+      </div>
+    </div>
+
+    <!-- KEY FACTS -->
+    <div class="section" id="facts">
+      <div class="section-header">
+        <span class="section-icon">📋</span>
+        <h2 class="section-title">Key Facts</h2>
+      </div>
+
+      <table class="info-table">
+        <tr><td>Full name</td><td>University College London</td></tr>
+        <tr><td>Location</td><td>Gower Street, Bloomsbury, London WC1E 6BT</td></tr>
+        <tr><td>Founded</td><td>1826 — by Jeremy Bentham, Henry Brougham & George Birkbeck</td></tr>
+        <tr><td>Type</td><td>Public research university (member of the Russell Group)</td></tr>
+        <tr><td>Motto</td><td><em>Cuncti adsint meritaeque expectent praemia palmae</em> — "Let all come who merit the reward of the palm"</td></tr>
+        <tr><td>Colours</td><td>Purple & gold</td></tr>
+        <tr><td>Student union</td><td>UCL Students' Union (UCLU)</td></tr>
+        <tr><td>Notable for</td><td>First to admit women on equal terms (1878); Jeremy Bentham's preserved body on display</td></tr>
+      </table>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="section" id="history">
+      <div class="section-header">
+        <span class="section-icon">📜</span>
+        <h2 class="section-title">History & Founding</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">1826</div>
+          <div class="timeline-text"><strong>The founding.</strong> Established as the "University of London" by a group of reformers determined to create a secular alternative to Oxford and Cambridge. No religious tests, no class barriers. Radical for its time.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">1828</div>
+          <div class="timeline-text"><strong>Doors open.</strong> The first students arrive at the Gower Street building — the grand portico already becoming iconic. Early years are financially turbulent but intellectually alive.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">1836</div>
+          <div class="timeline-text"><strong>Renamed UCL.</strong> The University of London becomes a separate examining body; the institution renames itself University College London to avoid confusion.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">1878</div>
+          <div class="timeline-text"><strong>Women admitted.</strong> UCL becomes the first university in England to admit women on equal terms as men — a full forty years before women could vote.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">1940s</div>
+          <div class="timeline-text"><strong>Wartime.</strong> WWII disrupts campus life. Parts of UCL are evacuated to Aberystwyth and Cambridge. The Bloomsbury campus sustains bomb damage; the Wilkins Building survives intact.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2000s–present</div>
+          <div class="timeline-text"><strong>Expansion.</strong> UCL grows into one of the world's top universities, expanding into King's Cross (UCL East), Stratford, and beyond. Student population swells past 40,000.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FACULTIES -->
+    <div class="section" id="faculties">
+      <div class="section-header">
+        <span class="section-icon">🎓</span>
+        <h2 class="section-title">Faculties</h2>
+        <span class="wip-badge">WIP</span>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">⚗️</div>
+          <div class="card-title">Engineering Sciences</div>
+          <div class="card-desc">Civil, mechanical, chemical, electrical. The department that smells like burnt coffee and ambition at 2am.</div>
+          <div class="card-tags"><span class="tag">STEM</span><span class="tag accent">Active</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🧬</div>
+          <div class="card-title">Life Sciences</div>
+          <div class="card-desc">Biology, biochemistry, neuroscience. Famously competitive. Lab hours that blur into days.</div>
+          <div class="card-tags"><span class="tag">STEM</span><span class="tag accent">Active</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚖️</div>
+          <div class="card-title">Laws</div>
+          <div class="card-desc">One of the oldest law faculties in England. Cold reading rooms, colder professors.</div>
+          <div class="card-tags"><span class="tag">Humanities</span><span class="tag accent">Active</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🏛️</div>
+          <div class="card-title">Arts & Humanities</div>
+          <div class="card-desc">History, philosophy, languages. The faculty everyone underestimates until finals week.</div>
+          <div class="card-tags"><span class="tag">Humanities</span><span class="tag accent">Active</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🩺</div>
+          <div class="card-title">Medical Sciences</div>
+          <div class="card-desc">UCL Medical School. Five-year programme. Attrition rates nobody talks about out loud.</div>
+          <div class="card-tags"><span class="tag">Medicine</span><span class="tag accent">Active</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">📊</div>
+          <div class="card-title">Social & Historical Sciences</div>
+          <div class="card-desc">Economics, politics, sociology, anthropology.</div>
+          <div class="card-tags"><span class="tag">Social</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">🏗️</div>
+          <div class="card-title">Built Environment (Bartlett)</div>
+          <div class="card-desc">Architecture, planning, urban design. Notoriously demanding. Notoriously prestigious.</div>
+          <div class="card-tags"><span class="tag">Architecture</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">🧮</div>
+          <div class="card-title">Mathematical & Physical Sciences</div>
+          <div class="card-desc">Maths, physics, astronomy, statistics.</div>
+          <div class="card-tags"><span class="tag">STEM</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMPUS SPACES -->
+    <div class="section" id="spaces">
+      <div class="section-header">
+        <span class="section-icon">🏗️</span>
+        <h2 class="section-title">Campus Spaces</h2>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">🏛️</div>
+          <div class="card-title">The Portico (Wilkins Building)</div>
+          <div class="card-desc">The iconic neoclassical front. Columns, dome, and the weight of everyone who walked through before you. Every student photographs it once. Then stops looking up.</div>
+          <div class="card-tags"><span class="tag accent">Landmark</span><span class="tag">Bloomsbury</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">📖</div>
+          <div class="card-title">Main Library (Science Library)</div>
+          <div class="card-desc">Five floors. The silence here is enforced by ambient pressure, not rules. Regulars have favourite seats they'd defend to the death during exam season.</div>
+          <div class="card-tags"><span class="tag">Study</span><span class="tag">Quiet zone</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌿</div>
+          <div class="card-title">Bloomsbury Quad</div>
+          <div class="card-desc">The central courtyard. Grass that's been walked on by two centuries of students. Good for lunch, worse for revising.</div>
+          <div class="card-tags"><span class="tag">Outdoor</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎭</div>
+          <div class="card-title">Jeremy Bentham's Auto-Icon</div>
+          <div class="card-desc">UCL's strangest tradition: the preserved skeleton of its spiritual founder, dressed and seated in a cabinet in the Wilkins Building. Brought to special meetings. Counted as "present but not voting."</div>
+          <div class="card-tags"><span class="tag accent">Lore</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">🍵</div>
+          <div class="card-title">The Cruciform Hub</div>
+          <div class="card-desc">Café, common area, social space in the Cruciform Building. Medical students haunt this place.</div>
+          <div class="card-tags"><span class="tag">Café</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">🏃</div>
+          <div class="card-title">UCL Sports Facilities</div>
+          <div class="card-desc">Bloomsbury Fitness Centre + Shenley Sports Ground. Gym, pool, courts.</div>
+          <div class="card-tags"><span class="tag">Sports</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLUBS & SOCIETIES -->
+    <div class="section" id="clubs">
+      <div class="section-header">
+        <span class="section-icon">🎭</span>
+        <h2 class="section-title">Clubs & Societies</h2>
+        <span class="wip-badge">WIP</span>
+      </div>
+
+      <div class="callout">
+        <span class="callout-icon">✏️</span>
+        <span class="callout-text">UCL has 250+ active societies. The ones listed below are either real or invented for this fiction — tagged accordingly.</span>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">🗣️</div>
+          <div class="card-title">UCL Debate Society</div>
+          <div class="card-desc">One of the oldest in the country. Weekly tournaments. People join for the networking, stay for the ego.</div>
+          <div class="card-tags"><span class="tag">Real</span><span class="tag">Academic</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎬</div>
+          <div class="card-title">Film Society</div>
+          <div class="card-desc">Screenings every Thursday in the Darwin Lecture Theatre. Free entry with student card. The post-screening arguments last longer than the films.</div>
+          <div class="card-tags"><span class="tag">Real</span><span class="tag">Arts</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎻</div>
+          <div class="card-title">UCL Orchestra</div>
+          <div class="card-desc">Rehearsals in the Bloomsbury Theatre. Auditions Michaelmas term. Competitive entry.</div>
+          <div class="card-tags"><span class="tag">Real</span><span class="tag">Music</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">🖊️</div>
+          <div class="card-title">Creative Writing Circle</div>
+          <div class="card-desc">To be developed. Workshop format? Journal? Add details here.</div>
+          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">Fiction</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">♟️</div>
+          <div class="card-title">[ Add society here ]</div>
+          <div class="card-desc">Relevant to your characters? Add clubs that intersect with your plot.</div>
+          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">➕</div>
+          <div class="card-title">[ Add society here ]</div>
+          <div class="card-desc">Placeholder for future development.</div>
+          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPORTS -->
+    <div class="section" id="sports">
+      <div class="section-header">
+        <span class="section-icon">⚽</span>
+        <h2 class="section-title">Sports & Gym</h2>
+        <span class="wip-badge">WIP</span>
+      </div>
+
+      <div class="two-col">
+        <div class="card wip-card">
+          <div class="card-icon">🏋️</div>
+          <div class="card-title">Bloomsbury Fitness Centre</div>
+          <div class="card-desc">Main on-campus gym. Open 7am–10pm. Always packed in January, half-empty by March. Located in the Student Centre building.</div>
+          <div class="card-tags"><span class="tag">Real</span><span class="tag" style="background:#fef6e4;color:#b07820">Details WIP</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">🏊</div>
+          <div class="card-title">Swimming & Sports Hall</div>
+          <div class="card-desc">Shenley Sports Ground is off-campus (Hertfordshire). On-campus facilities more limited. Expand as needed for fiction.</div>
+          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+      </div>
+
+      <div class="empty" style="margin-top:16px">
+        ✏️ Sports teams, inter-university fixtures, and character involvement to be added here.
+      </div>
+    </div>
+
+    <!-- DINING -->
+    <div class="section" id="dining">
+      <div class="section-header">
+        <span class="section-icon">☕</span>
+        <h2 class="section-title">Dining & Cafés</h2>
+        <span class="wip-badge">WIP</span>
+      </div>
+
+      <div class="empty">
+        ✏️ Add campus cafés, dining halls, and nearby Bloomsbury spots that feature in your fiction. (Ramsay Hall café? Local spots on Gower St? Add here.)
+      </div>
+    </div>
+
+    <!-- HOUSING -->
+    <div class="section" id="housing">
+      <div class="section-header">
+        <span class="section-icon">🏠</span>
+        <h2 class="section-title">Student Housing</h2>
+        <span class="wip-badge">WIP</span>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card wip-card">
+          <div class="card-icon">🏠</div>
+          <div class="card-title">Ramsay Hall</div>
+          <div class="card-desc">One of UCL's main halls of residence. Near Warren Street. Mostly first years. The social scene is intense for exactly six weeks, then fades.</div>
+          <div class="card-tags"><span class="tag">Real</span><span class="tag" style="background:#fef6e4;color:#b07820">Details WIP</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">🏢</div>
+          <div class="card-title">Private/Off-campus Housing</div>
+          <div class="card-desc">Most students move to Camden, Islington, or East London after first year. Add character-specific addresses here.</div>
+          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRADITIONS -->
+    <div class="section" id="traditions">
+      <div class="section-header">
+        <span class="section-icon">🕯️</span>
+        <h2 class="section-title">Traditions & Lore</h2>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">💀</div>
+          <div class="card-title">The Auto-Icon</div>
+          <div class="card-desc">Jeremy Bentham's preserved body has been at UCL since 1850. Legend says his head (originally part of the display) was used as a football by medical students. The stories keep growing.</div>
+          <div class="card-tags"><span class="tag accent">Lore</span><span class="tag">Real</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">Graduation on the Steps</div>
+          <div class="card-desc">The portico steps are where graduating students are photographed. Families travel from everywhere. The steps look exactly the same as they did in 1828.</div>
+          <div class="card-tags"><span class="tag accent">Tradition</span></div>
+        </div>
+        <div class="card wip-card">
+          <div class="card-icon">🌙</div>
+          <div class="card-title">[ Fiction-specific tradition ]</div>
+          <div class="card-desc">Add invented traditions or rituals that matter to your characters or plot here.</div>
+          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">Fiction</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTABLE ALUMNI -->
+    <div class="section" id="notable">
+      <div class="section-header">
+        <span class="section-icon">✨</span>
+        <h2 class="section-title">Notable Alumni</h2>
+        <span class="wip-badge">WIP</span>
+      </div>
+
+      <div class="empty">
+        ✏️ Add real alumni relevant to your fiction's tone (Mahatma Gandhi, Alexander Graham Bell, Coldplay's Chris Martin) — or invent fictional "notable alumni" that shape your world.
+      </div>
+    </div>
+
+    <div style="height: 60px;"></div>
+  </div>
+</div>
+
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const sections = navItems
+    .map(item => document.querySelector(item.getAttribute('href')))
+    .filter(Boolean);
+
+  function openMenu() {
+    sidebar.classList.add('open');
+    overlay.style.display = 'block';
+  }
+  function closeMenu() {
+    sidebar.classList.remove('open');
+    overlay.style.display = 'none';
+  }
+
+  menuBtn.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  overlay.addEventListener('click', closeMenu);
+  navItems.forEach(item => item.addEventListener('click', closeMenu));
+
+  // Scrollspy: highlight the nav item for the section currently in view
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const id = '#' + entry.target.id;
+      navItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === id);
+      });
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+  sections.forEach(section => spy.observe(section));
+</script>
+
+</body>
+</html>
