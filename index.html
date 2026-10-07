@@ -4,642 +4,309 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>University College London — Fiction Wiki</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Playfair+Display:wght@600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><script>(function(){var d=document.documentElement,t=null;try{t=localStorage.getItem('ucl-wiki-theme')}catch(e){}if(t!=='light'&&t!=='dark')t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';d.setAttribute('data-theme',t)})()</script>
 <style>
-  :root {
-    --bg: #f7f5f0;
-    --paper: #fefcf8;
-    --ink: #1a1714;
-    --ink-muted: #6b6560;
-    --ink-faint: #b8b2aa;
-    --accent: #8b2635;
-    --accent-soft: #f0e8e9;
-    --gold: #c4973a;
-    --gold-soft: #faf3e4;
-    --border: #e2ddd6;
-    --border-strong: #ccc5bb;
-    --wip: #e8a020;
-    --wip-bg: #fef6e4;
-    --tag-bg: #ede9e2;
-  }
+:root{--f-d:'Cormorant Garamond','Playfair Display',Georgia,serif;--f-b:'DM Sans',system-ui,sans-serif;--f-m:'DM Mono',ui-monospace,monospace;
+--bg:#f1e9d8;--paper:#f9f3e6;--paper2:#ebe1cb;--ink:#241f1b;--ink2:#4b433b;--muted:#6a5f53;--faint:#6f6456;
+--accent:#6b1d2b;--bar:#6b1d2b;--accent-soft:rgba(107,29,43,.08);--accent-line:rgba(107,29,43,.35);
+--gold:#a1802f;--gold-ink:#7a5d1c;--gold-soft:rgba(161,128,47,.12);--plum:#6d5a78;
+--rule:rgba(36,31,27,.14);--rule2:rgba(36,31,27,.3);--shadow:0 1px 0 rgba(36,31,27,.04),0 12px 24px -16px rgba(60,40,20,.3);
+--hero:#1c1512;--hero-ink:#efe6d3;--grain:.05;color-scheme:light}
+:root[data-theme=dark]{--bg:#14110e;--paper:#1c1814;--paper2:#26211b;--ink:#ede4d2;--ink2:#cfc5b2;--muted:#a79c8a;--faint:#92877a;
+--accent:#cf7a86;--bar:#9a3a4b;--accent-soft:rgba(207,122,134,.1);--accent-line:rgba(207,122,134,.4);
+--gold:#c6a65f;--gold-ink:#cdb16f;--gold-soft:rgba(198,166,95,.1);--plum:#a893b5;
+--rule:rgba(237,228,210,.12);--rule2:rgba(237,228,210,.26);--shadow:0 1px 0 rgba(0,0,0,.3),0 16px 28px -18px rgba(0,0,0,.75);
+--hero:#0f0c0a;--grain:.035;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html.theme-anim *{transition:background-color .45s,color .45s,border-color .45s,fill .45s,stroke .45s!important}
+body{font:400 15.5px/1.75 var(--f-b);background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;
+background-image:radial-gradient(900px 520px at 90% -8%,var(--gold-soft),transparent 70%),radial-gradient(760px 640px at 0 100%,var(--accent-soft),transparent 70%);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;z-index:1000;pointer-events:none;opacity:var(--grain);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+::selection{background:var(--bar);color:#fff}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+.main:focus{outline:none}
+.skip{position:fixed;left:12px;top:-70px;z-index:400;background:var(--paper);color:var(--ink);padding:10px 16px;border:1px solid var(--gold);font-size:13px}.skip:focus{top:12px}
+.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* SIDEBAR */
+.sidebar{position:fixed;inset:0 auto 0 0;width:276px;background:var(--paper);border-right:1px solid var(--rule);overflow-y:auto;z-index:100;counter-reset:sec item;padding-bottom:32px;scrollbar-width:thin}
+.sidebar-logo{position:relative;padding:34px 26px 22px;margin-bottom:10px;border-bottom:1px solid var(--rule)}
+.sidebar-logo::after{content:"";position:absolute;left:26px;bottom:-1px;width:40px;height:2px;background:var(--bar)}
+.mono-mark{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--rule2);border-radius:50%;font:700 14px/1 var(--f-d);letter-spacing:.06em;color:var(--accent);margin-bottom:16px;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--rule)}
+.emblem{font:500 10.5px/1 var(--f-m);letter-spacing:.18em;text-transform:uppercase;color:var(--gold-ink)}
+.uni-name{font:600 26px/1.1 var(--f-d);margin-top:10px;letter-spacing:-.005em}
+.logo-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px}
+.fiction-tag{font:400 10px/1 var(--f-m);letter-spacing:.14em;color:var(--muted);text-transform:lowercase;border:1px solid var(--rule);padding:6px 8px;border-radius:2px}
+.nav-section{padding:10px 14px 4px}
+.nav-label{counter-increment:sec;display:flex;align-items:center;gap:10px;font:500 10px/1 var(--f-m);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);padding:10px 12px 8px}
+.nav-label::before{content:counter(sec,upper-roman);color:var(--gold-ink)}
+.nav-label::after{content:"";flex:1;height:1px;background:var(--rule)}
+.nav-item{counter-increment:item;position:relative;display:flex;align-items:center;gap:10px;min-height:38px;padding:7px 12px;border-radius:2px;color:var(--ink2);font-size:14px;text-decoration:none;transition:background-color .25s,color .25s}
+.nav-item::before{content:counter(item,decimal-leading-zero);width:16px;font:400 10px/1 var(--f-m);letter-spacing:.04em;color:var(--faint);transition:color .25s}
+.nav-item .icon{display:grid;place-items:center;width:18px;height:18px;color:var(--muted);transition:color .25s}
+.nav-item .icon .i{width:16px;height:16px}
+.nav-item:hover{background:var(--accent-soft);color:var(--ink)}
+.nav-item:hover .icon{color:var(--accent)}
+.nav-item.active{color:var(--ink);font-weight:500;background:linear-gradient(90deg,var(--accent-soft),transparent)}
+.nav-item.active::after{content:"";position:absolute;left:0;top:7px;bottom:7px;width:2px;background:var(--bar)}
+.nav-item.active::before,.nav-item.active .icon{color:var(--accent)}
+.wip-dot{margin-left:auto;width:8px;height:8px;border-radius:50%;border:1px solid var(--gold);background:linear-gradient(90deg,var(--gold) 50%,transparent 50%)}
+.menu-close{display:none}
+.logo-row .theme-icon{width:40px;height:40px;margin-right:-10px}
+
+/* SIDEBAR SEARCH */
+.search{--s-focus:var(--bar);--s-ring:rgba(107,29,43,.14);position:relative;display:flex;align-items:center;gap:8px;height:34px;margin:10px 12px;padding:0 8px 0 14px;background:var(--paper2);background:color-mix(in srgb,var(--paper2) 62%,var(--paper));border:1px solid var(--rule);border-radius:999px;color:var(--muted);transition:border-color .25s,box-shadow .25s,color .25s}
+:root[data-theme=dark] .search{--s-focus:var(--gold);--s-ring:rgba(198,166,95,.2)}
+.search:hover{border-color:var(--rule2)}
+.search:focus-within{border-color:var(--s-focus);box-shadow:0 0 0 3px var(--s-ring);color:var(--ink2)}
+.search-ico{width:16px;height:16px}
+.search-input{flex:1;min-width:0;height:100%;border:0;border-radius:0;background:transparent;color:var(--ink);font:400 13px/1 var(--f-m);letter-spacing:0;-webkit-appearance:none;appearance:none}
+.search-input::placeholder{color:var(--muted);opacity:1;font-size:12.5px;letter-spacing:0}
+.search-input:focus,.search-input:focus-visible{outline:none}
+.search-input::-webkit-search-cancel-button,.search-input::-webkit-search-decoration{-webkit-appearance:none;display:none}
+.search-clear{display:grid;place-items:center;flex:none;width:22px;height:22px;border:0;border-radius:50%;background:transparent;color:var(--muted);cursor:pointer;transition:background-color .2s,color .2s}
+.search-clear .i{width:12px;height:12px}
+.search-clear:hover{background:var(--accent-soft);color:var(--accent)}
+.search-input:placeholder-shown~.search-clear{display:none}
+.search-kbd{flex:none;margin-right:2px;padding:4px 7px;font:400 10.5px/1 var(--f-m);color:var(--faint);background:var(--paper);border:1px solid var(--rule);border-radius:6px}
+.search-input:not(:placeholder-shown)~.search-kbd{display:none}
+.search-empty{margin:2px 26px 6px;font:400 12px/1.5 var(--f-m);color:var(--muted)}
+/* filtered-out entries collapse but keep their boxes, so the archival numbering never shifts */
+.nav-item.is-filtered{height:0;min-height:0;padding-top:0;padding-bottom:0;overflow:hidden;visibility:hidden}
+.nav-section.is-filtered{height:0;padding:0;overflow:hidden;visibility:hidden}
+
+/* MAIN + HERO */
+.main{margin-left:276px;min-height:100vh;overflow-x:clip}
+.hero{position:relative;isolation:isolate;overflow:hidden;background:var(--hero);color:var(--hero-ink);padding:84px 80px 0;border-bottom:1px solid rgba(196,151,58,.3)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse 55% 70% at 86% 28%,rgba(139,38,53,.4),transparent 70%),radial-gradient(ellipse 45% 60% at 6% 100%,rgba(196,151,58,.17),transparent 70%),radial-gradient(ellipse 40% 50% at 55% 0,rgba(109,90,120,.2),transparent 70%)}
+.hero::after{content:"";position:absolute;inset:18px;z-index:-1;border:1px solid rgba(196,151,58,.2);pointer-events:none}
+.hero-art{position:absolute;right:6%;top:64px;width:min(34%,380px);z-index:-1;color:#c4973a;opacity:.22}
+.hero-art svg{display:block;width:100%;height:auto;fill:none;stroke:currentColor;stroke-width:1}
+.hero-mark{position:absolute;right:-1%;bottom:64px;z-index:-1;font:600 clamp(170px,23vw,340px)/.8 var(--f-d);letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1px rgba(196,151,58,.24);user-select:none}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px}
+.hero-meta{display:flex;align-items:center;gap:10px;font:400 11.5px/1.4 var(--f-m);letter-spacing:.16em;text-transform:uppercase;color:#d2b26a}
+.hero-meta .i{width:14px;height:14px}
+.hero-stamp{font:400 10.5px var(--f-m);letter-spacing:.24em;color:rgba(239,230,211,.5)}
+.hero h1{font:600 clamp(46px,7.2vw,104px)/.95 var(--f-d);letter-spacing:-.015em;margin-top:56px;max-width:9.5em}
+.hero h1 em{font-weight:500;color:#e2b9bf}
+.hero-tagline{margin-top:28px;max-width:30em;font:italic 400 22px/1.5 var(--f-d);color:rgba(239,230,211,.76)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:72px;border-top:1px solid rgba(196,151,58,.32)}
+.stat-item{padding:22px 24px 32px 0}
+.stat-item+.stat-item{padding-left:24px;border-left:1px solid rgba(239,230,211,.1)}
+.stat-value{font:600 clamp(34px,4vw,54px)/1 var(--f-d);font-variant-numeric:lining-nums;color:var(--hero-ink)}
+.stat-label{margin-top:10px;font:400 10.5px/1.5 var(--f-m);letter-spacing:.14em;text-transform:uppercase;color:rgba(239,230,211,.58)}
+
+/* CONTENT */
+.content{padding:72px 80px 40px;max-width:1040px}
+.section{margin-bottom:56px}
+.section-header{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:14px 16px;padding-bottom:22px;margin-bottom:36px;border-bottom:1px solid var(--rule)}
+.section-header::after{content:"";position:absolute;left:0;bottom:-1px;width:56px;height:2px;background:var(--bar)}
+.folio{flex:0 0 100%;order:-1;display:flex;gap:10px;font:400 10.5px/1 var(--f-m);letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.folio b{font-weight:500;color:var(--gold-ink)}
+.section-icon{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--rule2);border-radius:50%;color:var(--accent)}
+.section-icon .i{width:20px;height:20px}
+.section-title{font:600 clamp(32px,4.4vw,50px)/1.05 var(--f-d);letter-spacing:-.01em}
+.wip-badge{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font:500 10px/1 var(--f-m);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);border:1px dashed var(--gold);padding:7px 10px;border-radius:2px}
+.wip-badge .i{width:12px;height:12px}
+.intro-block{max-width:44rem;padding:30px 0;margin-bottom:40px;border-top:1px solid var(--rule2);border-bottom:1px solid var(--rule)}
+.intro-block p{font-size:16px;line-height:1.85;color:var(--ink2)}
+.intro-block p+p{margin-top:16px}
+.intro-block p:first-child{font:400 25px/1.5 var(--f-d);color:var(--ink)}
+.intro-block p:first-child::first-letter{float:left;font:600 4.2em/.8 var(--f-d);color:var(--accent);padding:6px 10px 0 0}
+
+/* CARDS */
+.cards-grid,.two-col{display:grid;gap:18px;counter-reset:c}
+.cards-grid{grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.two-col{grid-template-columns:1fr 1fr}
+.card{counter-increment:c;position:relative;background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:26px 26px 22px;box-shadow:var(--shadow);transition:transform .4s cubic-bezier(.2,.7,.2,1),border-color .3s}
+.card::before{content:"";position:absolute;left:-1px;top:-1px;width:2px;height:0;background:var(--bar);transition:height .5s cubic-bezier(.2,.7,.2,1)}
+.card::after{content:counter(c,decimal-leading-zero);position:absolute;top:24px;right:24px;font:400 10px/1 var(--f-m);letter-spacing:.14em;color:var(--faint)}
+.card:hover{transform:translateY(-3px);border-color:var(--rule2)}
+.card:hover::before{height:calc(100% + 2px)}
+.card-icon{margin-bottom:18px;color:var(--accent)}
+.card-icon .i{width:24px;height:24px;stroke-width:1.4}
+.card-title{font:600 24px/1.18 var(--f-d);margin-bottom:8px}
+.card-desc{font-size:14px;line-height:1.7;color:var(--muted)}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;padding-top:14px;border-top:1px solid var(--rule)}
+.tag{font:400 10px/1 var(--f-m);letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border:1px solid var(--rule);border-radius:2px;color:var(--muted)}
+.tag.accent{color:var(--accent);border-color:var(--accent-line);background:var(--accent-soft)}
+.tag.gold,.tag.wip{color:var(--gold-ink);border:1px dashed var(--gold);background:var(--gold-soft)}
+.wip-card{background:transparent;border-style:dashed;border-color:var(--rule2);box-shadow:none}
+.wip-card::after{content:counter(c,decimal-leading-zero) " · Draft"}
+.wip-card .card-icon{color:var(--gold-ink);opacity:.8}
+
+/* KEY FACTS */
+.info-table,.info-table tbody{display:block;width:100%}
+.info-table{border-top:2px solid var(--ink);border-bottom:1px solid var(--rule2)}
+.info-table tr{display:grid;grid-template-columns:190px 1fr;gap:0 24px;border-bottom:1px solid var(--rule)}
+.info-table tr:last-child{border-bottom:0}
+.info-table td{display:block;padding:20px 0}
+.info-table td:first-child{padding-top:25px;font:400 10.5px/1.4 var(--f-m);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.info-table td:last-child{font:500 21px/1.4 var(--f-d);color:var(--ink)}
+.info-table em{color:var(--accent)}
+
+/* TIMELINE */
+.timeline{position:relative}
+.timeline::before{content:"";position:absolute;top:12px;bottom:12px;left:198px;width:1px;background:var(--rule2)}
+.timeline-item{position:relative;display:grid;grid-template-columns:170px 1fr;column-gap:56px;padding-bottom:40px}
+.timeline-item::before{content:"";position:absolute;left:194px;top:14px;width:9px;height:9px;border-radius:50%;background:var(--bg);border:1.5px solid var(--bar);box-shadow:0 0 0 4px var(--bg)}
+.timeline-year{text-align:right;font:600 clamp(28px,3vw,38px)/1 var(--f-d);font-variant-numeric:lining-nums;color:var(--accent)}
+.timeline-text{font-size:15px;line-height:1.75;color:var(--ink2);max-width:36rem}
+.timeline-text strong{display:block;font:600 23px/1.2 var(--f-d);color:var(--ink);margin-bottom:6px}
+
+/* CALLOUT / EMPTY / DIVIDER */
+.callout{display:flex;gap:14px;align-items:flex-start;margin:28px 0;padding:18px 22px;background:var(--gold-soft);border-left:2px solid var(--bar);border-radius:0 3px 3px 0}
+.callout-icon{display:grid;margin-top:4px;color:var(--accent)}
+.callout-text{font-size:14px;line-height:1.7;color:var(--ink2)}
+.callout-text strong{margin-right:8px;font:500 10.5px var(--f-m);letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.empty{display:flex;gap:12px;justify-content:center;align-items:flex-start;padding:36px 30px;border:1px dashed var(--rule2);border-radius:3px;color:var(--muted);font:italic 400 19px/1.55 var(--f-d)}
+.empty .i{margin-top:5px;color:var(--gold-ink);font-size:16px}
+.divider{border:0;border-top:1px solid var(--rule);margin:40px 0}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--rule2);border-radius:3px}
+
+/* MENU + OVERLAY */
+.menu-btn{display:none;width:44px;height:44px;align-items:center;justify-content:center;background:transparent;color:var(--ink);border:0;border-radius:50%;cursor:pointer;transition:background-color .25s,color .25s}
+.menu-btn:hover{background:var(--accent-soft);color:var(--accent)}
+.menu-btn .i{width:20px;height:20px}
+/* TOP BAR (mobile / tablet) */
+.topbar{display:none}
+.theme-icon{display:grid;place-items:center;width:44px;height:44px;background:transparent;color:var(--ink2);border:0;border-radius:50%;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.theme-icon .i{width:19px;height:19px}
+.theme-icon .i-moon{display:none}
+:root[data-theme=dark] .theme-icon .i-sun{display:none}
+:root[data-theme=dark] .theme-icon .i-moon{display:block}
+.bar-title{min-width:0;text-align:center}
+.bar-group{display:block;font:400 9.5px/1 var(--f-m);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.bar-name{display:block;margin-top:5px;font:600 18px/1.25 'Playfair Display',Georgia,serif;letter-spacing:0;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.menu-btn.hidden{visibility:hidden}
+.sidebar-overlay{display:none;position:fixed;inset:0;z-index:99;background:rgba(14,10,8,.58);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .4s,visibility 0s .4s}
+
+/* SLIDE MODE + PAGER */
+.hero,.section,.divider{display:none}
+.hero.active,.section.active{display:block}
+@keyframes slideFromRight{from{opacity:0;transform:translateX(34px)}to{opacity:1;transform:none}}
+@keyframes slideFromLeft{from{opacity:0;transform:translateX(-34px)}to{opacity:1;transform:none}}
+@keyframes itemIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.section.active .card,.section.active .timeline-item{animation:itemIn .7s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(min(var(--d,0),8)*70ms + 90ms)}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:56px;padding-top:22px;border-top:1px solid var(--rule2)}
+.pager-btn{display:inline-flex;align-items:center;gap:12px;min-height:46px;max-width:44%;padding:0 18px;font:500 13px var(--f-b);color:var(--ink2);background:transparent;border:1px solid var(--rule2);border-radius:2px;cursor:pointer;transition:border-color .25s,color .25s}
+.pager-btn .i{width:18px;height:18px;transition:transform .3s}
+.pager-btn .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pager-btn:hover{border-color:var(--accent);color:var(--accent)}
+.pager-btn:hover .i-next{transform:translateX(3px)}
+#prevBtn:hover .i{transform:translateX(-3px)}
+.pager-btn.off{visibility:hidden}
+.pager-count{white-space:nowrap;font:400 11px var(--f-m);letter-spacing:.18em;color:var(--muted)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+.menu-btn{display:flex}
+.topbar{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;gap:8px;position:sticky;top:0;z-index:90;height:calc(58px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 10px 0;background:var(--paper);background:color-mix(in srgb,var(--paper) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.logo-row .theme-icon{display:none}
+.sidebar{width:min(86vw,320px);transform:translateX(-102%);visibility:hidden;transition:transform .45s cubic-bezier(.2,.7,.2,1),visibility 0s .45s;box-shadow:0 0 40px rgba(0,0,0,.3)}
+.sidebar.open{transform:none;visibility:visible;transition-delay:0s}
+.sidebar-overlay{display:block}.sidebar-overlay.show{opacity:1;visibility:visible;transition-delay:0s}
+.menu-close{display:grid;place-items:center;position:absolute;top:12px;right:12px;width:44px;height:44px;background:none;border:0;color:var(--ink);cursor:pointer}
+.menu-close .i{width:20px;height:20px}
+.nav-item{min-height:44px}
+.search{height:44px}
+.search-input{font-size:16px}
+.search-clear{width:32px;height:32px}
+.search-kbd{display:none}
+.main{margin-left:0}
+.hero{padding:52px 28px 0}.hero::after{inset:10px}
+.hero-art{width:44%;right:22px;top:40px;opacity:.14}
+.content{padding:48px 22px 24px}
+.two-col,.cards-grid{grid-template-columns:1fr}}
+@media(max-width:700px){
+.timeline::before{left:4px}
+.timeline-item{grid-template-columns:1fr;padding:0 0 34px 30px}
+.timeline-item::before{left:0;top:8px}
+.timeline-year{text-align:left;margin-bottom:8px}
+.info-table tr{grid-template-columns:1fr}
+.info-table td:first-child{padding:18px 0 2px}.info-table td:last-child{padding:0 0 18px;font-size:20px}
+.hero-stats{grid-template-columns:1fr 1fr;margin-top:48px}
+.stat-item:nth-child(odd){padding-left:0;border-left:0}.stat-item:nth-child(even){padding-left:22px}
+.stat-item:nth-child(n+3){border-top:1px solid rgba(239,230,211,.1)}
+.hero-tagline{font-size:20px}.hero h1{margin-top:44px}
+.intro-block p:first-child{font-size:22px}
+.wip-badge{margin-left:0}
+.pager-btn .lbl{display:none}.pager-btn{min-width:56px;justify-content:center}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;transition-delay:0s!important}}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    min-height: 100vh;
-    font-size: 15px;
-    line-height: 1.7;
-  }
-
-  /* SIDEBAR */
-  .sidebar {
-    position: fixed;
-    left: 0; top: 0; bottom: 0;
-    width: 260px;
-    background: var(--paper);
-    border-right: 1px solid var(--border);
-    padding: 32px 0;
-    overflow-y: auto;
-    z-index: 100;
-  }
-
-  .sidebar-logo {
-    padding: 0 24px 24px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 16px;
-  }
-
-  .sidebar-logo .emblem {
-    font-family: 'Playfair Display', serif;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 600;
-  }
-
-  .sidebar-logo .uni-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-top: 4px;
-    line-height: 1.3;
-  }
-
-  .sidebar-logo .fiction-tag {
-    display: inline-block;
-    margin-top: 8px;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    padding: 2px 8px;
-    border-radius: 3px;
-    letter-spacing: 0.05em;
-  }
-
-  .nav-section {
-    padding: 0 12px;
-    margin-bottom: 8px;
-  }
-
-  .nav-label {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    padding: 6px 12px 4px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    color: var(--ink-muted);
-    font-size: 13.5px;
-    transition: all 0.15s;
-    text-decoration: none;
-  }
-
-  .nav-item:hover { background: var(--tag-bg); color: var(--ink); }
-  .nav-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
-
-  .nav-item .icon { font-size: 14px; width: 18px; text-align: center; }
-
-  .nav-item .wip-dot {
-    margin-left: auto;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--wip);
-    opacity: 0.7;
-  }
-
-  /* MAIN */
-  .main {
-    margin-left: 260px;
-    padding: 0;
-    min-height: 100vh;
-  }
-
-  /* HERO */
-  .hero {
-    background: var(--ink);
-    color: #f0ece4;
-    padding: 80px 80px 64px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: 
-      radial-gradient(ellipse 60% 50% at 80% 50%, rgba(139,38,53,0.25) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(196,151,58,0.12) 0%, transparent 70%);
-  }
-
-  .hero-meta {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 20px;
-    position: relative;
-  }
-
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 5vw, 58px);
-    font-weight: 700;
-    line-height: 1.1;
-    position: relative;
-    letter-spacing: -0.01em;
-    max-width: 700px;
-  }
-
-  .hero h1 em {
-    font-style: italic;
-    color: #d4a8ae;
-  }
-
-  .hero-tagline {
-    margin-top: 20px;
-    font-size: 15px;
-    color: #a09890;
-    max-width: 520px;
-    line-height: 1.6;
-    position: relative;
-  }
-
-  .hero-stats {
-    display: flex;
-    gap: 40px;
-    margin-top: 48px;
-    padding-top: 32px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    position: relative;
-  }
-
-  .stat-item { }
-  .stat-value {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 600;
-    color: #f0ece4;
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 11px;
-    color: #7a736b;
-    margin-top: 4px;
-    letter-spacing: 0.05em;
-  }
-
-  /* CONTENT AREA */
-  .content {
-    padding: 56px 80px;
-    max-width: 1100px;
-  }
-
-  /* SECTION */
-  .section {
-    margin-bottom: 56px;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-icon {
-    font-size: 18px;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-  }
-
-  .wip-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 500;
-    background: var(--wip-bg);
-    color: var(--wip);
-    border: 1px solid #f0d090;
-    padding: 3px 10px;
-    border-radius: 4px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-left: auto;
-  }
-
-  .wip-badge::before { content: '◐'; font-size: 9px; }
-
-  /* INTRO TEXT */
-  .intro-block {
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 8px 8px 0;
-    padding: 24px 28px;
-    margin-bottom: 32px;
-  }
-
-  .intro-block p {
-    color: var(--ink);
-    font-size: 15px;
-    line-height: 1.8;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  .intro-block p + p { margin-top: 14px; }
-
-  /* CARDS GRID */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-  }
-
-  .card {
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 22px;
-    transition: all 0.2s;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--accent);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .card:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
-  .card:hover::before { opacity: 1; }
-
-  .card.wip-card { background: var(--wip-bg); border-color: #f0d090; }
-  .card.wip-card::before { background: var(--wip); }
-
-  .card-icon { font-size: 22px; margin-bottom: 10px; }
-
-  .card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 6px;
-  }
-
-  .card-desc {
-    font-size: 13px;
-    color: var(--ink-muted);
-    line-height: 1.6;
-  }
-
-  .card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 12px;
-  }
-
-  .tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 3px;
-    background: var(--tag-bg);
-    color: var(--ink-muted);
-    letter-spacing: 0.03em;
-  }
-
-  .tag.accent { background: var(--accent-soft); color: var(--accent); }
-  .tag.gold { background: var(--gold-soft); color: #a07828; }
-
-  /* TABLE */
-  .info-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .info-table tr { border-bottom: 1px solid var(--border); }
-  .info-table tr:last-child { border-bottom: none; }
-
-  .info-table td {
-    padding: 13px 18px;
-    font-size: 14px;
-    vertical-align: top;
-  }
-
-  .info-table td:first-child {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--ink-faint);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    width: 160px;
-    padding-right: 0;
-    white-space: nowrap;
-  }
-
-  .info-table td:last-child {
-    color: var(--ink);
-    font-weight: 400;
-  }
-
-  /* TIMELINE */
-  .timeline {
-    position: relative;
-    padding-left: 28px;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 7px; top: 6px; bottom: 6px;
-    width: 1px;
-    background: var(--border-strong);
-  }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 24px;
-  }
-
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -24px;
-    top: 7px;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--paper);
-    border: 2px solid var(--accent);
-  }
-
-  .timeline-year {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    margin-bottom: 3px;
-  }
-
-  .timeline-text {
-    font-size: 14px;
-    color: var(--ink);
-    line-height: 1.65;
-  }
-
-  .timeline-text strong {
-    color: var(--ink);
-    font-weight: 500;
-  }
-
-  /* CALLOUT */
-  .callout {
-    background: var(--gold-soft);
-    border: 1px solid #e8d08a;
-    border-radius: 8px;
-    padding: 16px 20px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    margin: 20px 0;
-  }
-
-  .callout-icon { font-size: 16px; margin-top: 1px; }
-  .callout-text { font-size: 13.5px; color: #7a5a18; line-height: 1.6; }
-
-  /* TWO COL */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-  /* DIVIDER */
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 40px 0;
-  }
-
-  /* PROPERTY ROW */
-  .prop-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 9px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-  }
-
-  .prop-row:last-child { border-bottom: none; }
-
-  .prop-key {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--ink-faint);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    min-width: 160px;
-  }
-
-  .prop-val { color: var(--ink); }
-
-  /* EMPTY STATE */
-  .empty {
-    padding: 32px;
-    text-align: center;
-    background: var(--paper);
-    border: 1px dashed var(--border-strong);
-    border-radius: 10px;
-    color: var(--ink-faint);
-    font-size: 13px;
-    font-style: italic;
-  }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
-
-  /* anchor targets shouldn't sit flush against the edge */
-  .section, .hero { scroll-margin-top: 16px; }
-
-  /* MOBILE MENU BUTTON (hidden on desktop) */
-  .menu-btn {
-    display: none;
-    position: fixed;
-    top: 16px; left: 16px;
-    z-index: 200;
-    width: 40px; height: 40px;
-    border-radius: 8px;
-    background: var(--paper);
-    border: 1px solid var(--border);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    cursor: pointer;
-    color: var(--ink);
-  }
-
-  .sidebar-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(26,23,20,0.4);
-    z-index: 99;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
-    .menu-btn { display: flex; }
-
-    .sidebar {
-      transform: translateX(-100%);
-      transition: transform 0.25s ease;
-      width: 260px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.15);
-    }
-
-    .sidebar.open { transform: translateX(0); }
-
-    .sidebar.open ~ .sidebar-overlay { display: block; }
-
-    .main { margin-left: 0; }
-
-    .hero { padding: 96px 24px 48px; }
-
-    .hero-stats { flex-wrap: wrap; gap: 24px 32px; }
-
-    .content { padding: 40px 20px; }
-
-    .two-col { grid-template-columns: 1fr; }
-
-    .cards-grid { grid-template-columns: 1fr; }
-  }
-
-  @media (max-width: 480px) {
-    .hero { padding: 88px 18px 40px; }
-    .hero-tagline { font-size: 14px; }
-    .content { padding: 32px 16px; }
-    .info-table td:first-child { width: 110px; }
-  }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol><symbol id="i-clipboard-list" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M12 11h4M12 16h4M8 11h.01M8 16h.01"/></symbol><symbol id="i-graduation-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol><symbol id="i-building-2" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2M10 6h4M10 10h4M10 14h4M10 18h4"/></symbol><symbol id="i-library" viewBox="0 0 24 24"><path d="m16 6 4 14M12 6v14M8 8v12M4 4v16"/></symbol><symbol id="i-landmark" viewBox="0 0 24 24"><path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2l8 5H4z"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol><symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol><symbol id="i-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-user-round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol><symbol id="i-scroll-text" viewBox="0 0 24 24"><path d="M15 12h-5M15 8h-5M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6h4"/></symbol><symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol><symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></symbol><symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2M8.5 2h7M7 16h10"/></symbol><symbol id="i-dna" viewBox="0 0 24 24"><path d="M2 15c6.667-6 13.333 0 20-6M9 22c1.798-2 2.518-3.995 2.807-5.993M15 2c-1.798 1.998-2.518 3.995-2.807 5.993M17 6l-2.5-2.5M14 8l-1-1M7 18l2.5 2.5M3.5 14.5l.5.5M20 9l.5.5M6.5 12.5l1 1M16.5 10.5l1 1M10 16l1.5 1.5"/></symbol><symbol id="i-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1ZM2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1ZM7 21h10M12 3v18M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol><symbol id="i-stethoscope" viewBox="0 0 24 24"><path d="M11 2v2M5 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/></symbol><symbol id="i-ruler" viewBox="0 0 24 24"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0ZM14.5 12.5l2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2"/></symbol><symbol id="i-calculator" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/></symbol><symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol><symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol><symbol id="i-skull" viewBox="0 0 24 24"><path d="m12.5 17-.5-1-.5 1h1z"/><path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="12" r="1"/></symbol><symbol id="i-coffee" viewBox="0 0 24 24"><path d="M10 2v2M14 2v2M6 2v2M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/></symbol><symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol><symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol><symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol><symbol id="i-film" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18M3 7.5h4M3 12h18M3 16.5h4M17 3v18M17 7.5h4M17 16.5h4"/></symbol><symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol><symbol id="i-pen-line" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></symbol><symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294zM5 21h14"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></symbol><symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol></defs></svg>
 
-<button class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</button>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar" id="topbar"><button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-menu"/></svg></button><div class="bar-title"><span class="bar-group" id="barGroup"></span><span class="bar-name" id="barName"></span></div><button class="theme-icon" type="button" role="switch" aria-checked="false" aria-label="Dark mode" data-theme-toggle><svg class="i i-sun" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg><svg class="i i-moon" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg></button></header>
 
 <!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
+<div class="sidebar" id="sidebar" role="navigation" aria-label="Archive contents">
   <div class="sidebar-logo">
-    <div class="emblem">Fiction Wiki</div>
+    <button class="menu-close" id="menuClose" type="button" aria-label="Close menu"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-x"/></svg></button><div class="mono-mark" aria-hidden="true">UCL</div><div class="emblem">Fiction Wiki</div>
     <div class="uni-name">University College London</div>
-    <div class="fiction-tag">worldbuilding</div>
+    <div class="logo-row"><div class="fiction-tag">worldbuilding</div><button class="theme-icon" type="button" role="switch" aria-checked="false" aria-label="Dark mode" data-theme-toggle><svg class="i i-sun" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg><svg class="i i-moon" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg></button></div>
   </div>
+
+  <div class="search" role="search"><svg class="i search-ico" aria-hidden="true" focusable="false"><use href="#i-search"/></svg><input id="navSearch" class="search-input" type="search" placeholder="Search the archive" aria-label="Search the archive" autocomplete="off" spellcheck="false" enterkeyhint="search"><button class="search-clear" id="navSearchClear" type="button" aria-label="Clear search"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-x"/></svg></button><kbd class="search-kbd" aria-hidden="true">/</kbd></div><p class="search-empty" id="navSearchEmpty" role="status" hidden>No matching pages</p>
 
   <div class="nav-section">
     <div class="nav-label">Overview</div>
-    <a href="#overview" class="nav-item active"><span class="icon">🏛️</span> About UCL</a>
-    <a href="#history" class="nav-item"><span class="icon">📜</span> History</a>
-    <a href="#facts" class="nav-item"><span class="icon">📋</span> Key Facts</a>
+    <a href="#overview" class="nav-item active"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-info"/></svg></span> About UCL</a>
+    <a href="#history" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-history"/></svg></span> History</a>
+    <a href="#facts" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clipboard-list"/></svg></span> Key Facts</a>
   </div>
 
   <div class="nav-section">
     <div class="nav-label">Academic</div>
-    <a href="#faculties" class="nav-item"><span class="icon">🎓</span> Faculties <span class="wip-dot"></span></a>
-    <a href="#departments" class="nav-item"><span class="icon">📚</span> Departments <span class="wip-dot"></span></a>
-    <a href="#libraries" class="nav-item"><span class="icon">📖</span> Libraries <span class="wip-dot"></span></a>
+    <a href="#faculties" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-graduation-cap"/></svg></span> Faculties <span class="wip-dot" role="img" aria-label="Work in progress" title="Work in progress"></span></a>
+    <a href="#departments" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-building-2"/></svg></span> Departments <span class="wip-dot" role="img" aria-label="Work in progress" title="Work in progress"></span></a>
+    <a href="#libraries" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-library"/></svg></span> Libraries <span class="wip-dot" role="img" aria-label="Work in progress" title="Work in progress"></span></a>
   </div>
 
   <div class="nav-section">
     <div class="nav-label">Campus Life</div>
-    <a href="#spaces" class="nav-item"><span class="icon">🏗️</span> Campus Spaces</a>
-    <a href="#clubs" class="nav-item"><span class="icon">🎭</span> Clubs & Societies <span class="wip-dot"></span></a>
-    <a href="#sports" class="nav-item"><span class="icon">⚽</span> Sports & Gym <span class="wip-dot"></span></a>
-    <a href="#dining" class="nav-item"><span class="icon">☕</span> Dining <span class="wip-dot"></span></a>
+    <a href="#spaces" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-landmark"/></svg></span> Campus Spaces</a>
+    <a href="#clubs" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-users"/></svg></span> Clubs & Societies <span class="wip-dot" role="img" aria-label="Work in progress" title="Work in progress"></span></a>
+    <a href="#sports" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-trophy"/></svg></span> Sports & Gym <span class="wip-dot" role="img" aria-label="Work in progress" title="Work in progress"></span></a>
+    <a href="#dining" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-utensils"/></svg></span> Dining <span class="wip-dot" role="img" aria-label="Work in progress" title="Work in progress"></span></a>
   </div>
 
   <div class="nav-section">
     <div class="nav-label">Student Life</div>
-    <a href="#housing" class="nav-item"><span class="icon">🏠</span> Housing <span class="wip-dot"></span></a>
-    <a href="#notable" class="nav-item"><span class="icon">✨</span> Notable Alumni <span class="wip-dot"></span></a>
-    <a href="#traditions" class="nav-item"><span class="icon">🕯️</span> Traditions <span class="wip-dot"></span></a>
+    <a href="#housing" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-house"/></svg></span> Housing <span class="wip-dot" role="img" aria-label="Work in progress" title="Work in progress"></span></a>
+    <a href="#notable" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-user-round"/></svg></span> Notable Alumni <span class="wip-dot" role="img" aria-label="Work in progress" title="Work in progress"></span></a>
+    <a href="#traditions" class="nav-item"><span class="icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-scroll-text"/></svg></span> Traditions <span class="wip-dot" role="img" aria-label="Work in progress" title="Work in progress"></span></a>
   </div>
 </div>
 
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 
 <!-- MAIN -->
-<div class="main">
+<div class="main" id="main" tabindex="-1" role="main">
 
   <!-- HERO -->
   <div class="hero" id="overview">
-    <div class="hero-meta">📍 Bloomsbury, London · Est. 1826</div>
+    <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 400 200"><path d="M20 70 200 12 380 70Z M52 64 200 22 348 64"/><path d="M20 70h360v14H20zM30 172h340v8H30zM14 180h372v8H14zM6 188h388v8H6z"/><path d="M41 88h18v84H41zM101 88h18v84h-18zM161 88h18v84h-18zM221 88h18v84h-18zM281 88h18v84h-18zM341 88h18v84h-18z"/></svg></div>
+    <div class="hero-mark" aria-hidden="true">1826</div>
+    <div class="hero-top"><div class="hero-meta"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-map-pin"/></svg>Bloomsbury, London · Est. 1826</div><div class="hero-stamp" aria-hidden="true">MDCCCXXVI</div></div>
     <h1>University College<br><em>London</em></h1>
-    <p class="hero-tagline">
-      Where ambition meets tradition, and the brightest minds discover that keeping up is a different kind of battle entirely.
-    </p>
+    <p class="hero-tagline">Where ambition meets tradition, and the brightest minds discover that keeping up is a different kind of battle entirely.</p>
     <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-value">1826</div>
-        <div class="stat-label">Founded</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">~42k</div>
-        <div class="stat-label">Students</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">11</div>
-        <div class="stat-label">Faculties</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">#3</div>
-        <div class="stat-label">UK Ranking (QS 2024)</div>
-      </div>
+      <div class="stat-item"><div class="stat-value">1826</div><div class="stat-label">Founded</div></div>
+      <div class="stat-item"><div class="stat-value">~42k</div><div class="stat-label">Students</div></div>
+      <div class="stat-item"><div class="stat-value">11</div><div class="stat-label">Faculties</div></div>
+      <div class="stat-item"><div class="stat-value">#3</div><div class="stat-label">UK Ranking (QS 2024)</div></div>
     </div>
   </div>
 
   <div class="content">
 
     <!-- ABOUT -->
-    <div class="section">
+    <div class="section" id="about">
       <div class="intro-block">
         <p>Nestled in the heart of Bloomsbury, London, University College London has stood for nearly two centuries — a place where ambition meets tradition, where the brightest minds come to prove themselves against the weight of history.</p>
         <p>Founded in 1826, UCL was the first university in England to open its doors regardless of religion or background. Its grand portico, its echoing halls, its libraries stacked floor to ceiling — all of it carries the quiet pressure of expectation.</p>
@@ -647,7 +314,7 @@
       </div>
 
       <div class="callout">
-        <span class="callout-icon">💡</span>
+        <span class="callout-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pen-line"/></svg></span>
         <span class="callout-text">
           <strong>Writer's Note:</strong> UCL is a real institution — but in this fiction, certain details (clubs, characters, events) are invented or altered for narrative purposes. Use this wiki as a living document.
         </span>
@@ -657,7 +324,7 @@
     <!-- KEY FACTS -->
     <div class="section" id="facts">
       <div class="section-header">
-        <span class="section-icon">📋</span>
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clipboard-list"/></svg></span>
         <h2 class="section-title">Key Facts</h2>
       </div>
 
@@ -676,7 +343,7 @@
     <!-- HISTORY -->
     <div class="section" id="history">
       <div class="section-header">
-        <span class="section-icon">📜</span>
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-history"/></svg></span>
         <h2 class="section-title">History & Founding</h2>
       </div>
 
@@ -713,59 +380,59 @@
     <!-- FACULTIES -->
     <div class="section" id="faculties">
       <div class="section-header">
-        <span class="section-icon">🎓</span>
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-graduation-cap"/></svg></span>
         <h2 class="section-title">Faculties</h2>
-        <span class="wip-badge">WIP</span>
+        <span class="wip-badge"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>WIP</span>
       </div>
 
       <div class="cards-grid">
         <div class="card">
-          <div class="card-icon">⚗️</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-flask"/></svg></div>
           <div class="card-title">Engineering Sciences</div>
           <div class="card-desc">Civil, mechanical, chemical, electrical. The department that smells like burnt coffee and ambition at 2am.</div>
           <div class="card-tags"><span class="tag">STEM</span><span class="tag accent">Active</span></div>
         </div>
         <div class="card">
-          <div class="card-icon">🧬</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-dna"/></svg></div>
           <div class="card-title">Life Sciences</div>
           <div class="card-desc">Biology, biochemistry, neuroscience. Famously competitive. Lab hours that blur into days.</div>
           <div class="card-tags"><span class="tag">STEM</span><span class="tag accent">Active</span></div>
         </div>
         <div class="card">
-          <div class="card-icon">⚖️</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-scale"/></svg></div>
           <div class="card-title">Laws</div>
           <div class="card-desc">One of the oldest law faculties in England. Cold reading rooms, colder professors.</div>
           <div class="card-tags"><span class="tag">Humanities</span><span class="tag accent">Active</span></div>
         </div>
         <div class="card">
-          <div class="card-icon">🏛️</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-book-open"/></svg></div>
           <div class="card-title">Arts & Humanities</div>
           <div class="card-desc">History, philosophy, languages. The faculty everyone underestimates until finals week.</div>
           <div class="card-tags"><span class="tag">Humanities</span><span class="tag accent">Active</span></div>
         </div>
         <div class="card">
-          <div class="card-icon">🩺</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-stethoscope"/></svg></div>
           <div class="card-title">Medical Sciences</div>
           <div class="card-desc">UCL Medical School. Five-year programme. Attrition rates nobody talks about out loud.</div>
           <div class="card-tags"><span class="tag">Medicine</span><span class="tag accent">Active</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">📊</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></div>
           <div class="card-title">Social & Historical Sciences</div>
           <div class="card-desc">Economics, politics, sociology, anthropology.</div>
-          <div class="card-tags"><span class="tag">Social</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag">Social</span><span class="tag wip">WIP</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">🏗️</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-ruler"/></svg></div>
           <div class="card-title">Built Environment (Bartlett)</div>
           <div class="card-desc">Architecture, planning, urban design. Notoriously demanding. Notoriously prestigious.</div>
-          <div class="card-tags"><span class="tag">Architecture</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag">Architecture</span><span class="tag wip">WIP</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">🧮</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-calculator"/></svg></div>
           <div class="card-title">Mathematical & Physical Sciences</div>
           <div class="card-desc">Maths, physics, astronomy, statistics.</div>
-          <div class="card-tags"><span class="tag">STEM</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag">STEM</span><span class="tag wip">WIP</span></div>
         </div>
       </div>
     </div>
@@ -773,46 +440,46 @@
     <!-- CAMPUS SPACES -->
     <div class="section" id="spaces">
       <div class="section-header">
-        <span class="section-icon">🏗️</span>
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-landmark"/></svg></span>
         <h2 class="section-title">Campus Spaces</h2>
       </div>
 
       <div class="cards-grid">
         <div class="card">
-          <div class="card-icon">🏛️</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-landmark"/></svg></div>
           <div class="card-title">The Portico (Wilkins Building)</div>
           <div class="card-desc">The iconic neoclassical front. Columns, dome, and the weight of everyone who walked through before you. Every student photographs it once. Then stops looking up.</div>
           <div class="card-tags"><span class="tag accent">Landmark</span><span class="tag">Bloomsbury</span></div>
         </div>
         <div class="card">
-          <div class="card-icon">📖</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-library"/></svg></div>
           <div class="card-title">Main Library (Science Library)</div>
           <div class="card-desc">Five floors. The silence here is enforced by ambient pressure, not rules. Regulars have favourite seats they'd defend to the death during exam season.</div>
           <div class="card-tags"><span class="tag">Study</span><span class="tag">Quiet zone</span></div>
         </div>
         <div class="card">
-          <div class="card-icon">🌿</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-leaf"/></svg></div>
           <div class="card-title">Bloomsbury Quad</div>
           <div class="card-desc">The central courtyard. Grass that's been walked on by two centuries of students. Good for lunch, worse for revising.</div>
           <div class="card-tags"><span class="tag">Outdoor</span></div>
         </div>
         <div class="card">
-          <div class="card-icon">🎭</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-skull"/></svg></div>
           <div class="card-title">Jeremy Bentham's Auto-Icon</div>
           <div class="card-desc">UCL's strangest tradition: the preserved skeleton of its spiritual founder, dressed and seated in a cabinet in the Wilkins Building. Brought to special meetings. Counted as "present but not voting."</div>
           <div class="card-tags"><span class="tag accent">Lore</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">🍵</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-coffee"/></svg></div>
           <div class="card-title">The Cruciform Hub</div>
           <div class="card-desc">Café, common area, social space in the Cruciform Building. Medical students haunt this place.</div>
-          <div class="card-tags"><span class="tag">Café</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag">Café</span><span class="tag wip">WIP</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">🏃</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-activity"/></svg></div>
           <div class="card-title">UCL Sports Facilities</div>
           <div class="card-desc">Bloomsbury Fitness Centre + Shenley Sports Ground. Gym, pool, courts.</div>
-          <div class="card-tags"><span class="tag">Sports</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag">Sports</span><span class="tag wip">WIP</span></div>
         </div>
       </div>
     </div>
@@ -820,52 +487,52 @@
     <!-- CLUBS & SOCIETIES -->
     <div class="section" id="clubs">
       <div class="section-header">
-        <span class="section-icon">🎭</span>
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-users"/></svg></span>
         <h2 class="section-title">Clubs & Societies</h2>
-        <span class="wip-badge">WIP</span>
+        <span class="wip-badge"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>WIP</span>
       </div>
 
       <div class="callout">
-        <span class="callout-icon">✏️</span>
+        <span class="callout-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pen-line"/></svg></span>
         <span class="callout-text">UCL has 250+ active societies. The ones listed below are either real or invented for this fiction — tagged accordingly.</span>
       </div>
 
       <div class="cards-grid">
         <div class="card">
-          <div class="card-icon">🗣️</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-message"/></svg></div>
           <div class="card-title">UCL Debate Society</div>
           <div class="card-desc">One of the oldest in the country. Weekly tournaments. People join for the networking, stay for the ego.</div>
           <div class="card-tags"><span class="tag">Real</span><span class="tag">Academic</span></div>
         </div>
         <div class="card">
-          <div class="card-icon">🎬</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-film"/></svg></div>
           <div class="card-title">Film Society</div>
           <div class="card-desc">Screenings every Thursday in the Darwin Lecture Theatre. Free entry with student card. The post-screening arguments last longer than the films.</div>
           <div class="card-tags"><span class="tag">Real</span><span class="tag">Arts</span></div>
         </div>
         <div class="card">
-          <div class="card-icon">🎻</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-music"/></svg></div>
           <div class="card-title">UCL Orchestra</div>
           <div class="card-desc">Rehearsals in the Bloomsbury Theatre. Auditions Michaelmas term. Competitive entry.</div>
           <div class="card-tags"><span class="tag">Real</span><span class="tag">Music</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">🖊️</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pen-line"/></svg></div>
           <div class="card-title">Creative Writing Circle</div>
           <div class="card-desc">To be developed. Workshop format? Journal? Add details here.</div>
-          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">Fiction</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag wip">Fiction</span><span class="tag wip">WIP</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">♟️</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-crown"/></svg></div>
           <div class="card-title">[ Add society here ]</div>
           <div class="card-desc">Relevant to your characters? Add clubs that intersect with your plot.</div>
-          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag wip">WIP</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">➕</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-plus"/></svg></div>
           <div class="card-title">[ Add society here ]</div>
           <div class="card-desc">Placeholder for future development.</div>
-          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag wip">WIP</span></div>
         </div>
       </div>
     </div>
@@ -873,64 +540,60 @@
     <!-- SPORTS -->
     <div class="section" id="sports">
       <div class="section-header">
-        <span class="section-icon">⚽</span>
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-trophy"/></svg></span>
         <h2 class="section-title">Sports & Gym</h2>
-        <span class="wip-badge">WIP</span>
+        <span class="wip-badge"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>WIP</span>
       </div>
 
       <div class="two-col">
         <div class="card wip-card">
-          <div class="card-icon">🏋️</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-activity"/></svg></div>
           <div class="card-title">Bloomsbury Fitness Centre</div>
           <div class="card-desc">Main on-campus gym. Open 7am–10pm. Always packed in January, half-empty by March. Located in the Student Centre building.</div>
-          <div class="card-tags"><span class="tag">Real</span><span class="tag" style="background:#fef6e4;color:#b07820">Details WIP</span></div>
+          <div class="card-tags"><span class="tag">Real</span><span class="tag wip">Details WIP</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">🏊</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-waves"/></svg></div>
           <div class="card-title">Swimming & Sports Hall</div>
           <div class="card-desc">Shenley Sports Ground is off-campus (Hertfordshire). On-campus facilities more limited. Expand as needed for fiction.</div>
-          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag wip">WIP</span></div>
         </div>
       </div>
 
-      <div class="empty" style="margin-top:16px">
-        ✏️ Sports teams, inter-university fixtures, and character involvement to be added here.
-      </div>
+      <div class="empty" style="margin-top:16px"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pen-line"/></svg><span>Sports teams, inter-university fixtures, and character involvement to be added here.</span></div>
     </div>
 
     <!-- DINING -->
     <div class="section" id="dining">
       <div class="section-header">
-        <span class="section-icon">☕</span>
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-utensils"/></svg></span>
         <h2 class="section-title">Dining & Cafés</h2>
-        <span class="wip-badge">WIP</span>
+        <span class="wip-badge"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>WIP</span>
       </div>
 
-      <div class="empty">
-        ✏️ Add campus cafés, dining halls, and nearby Bloomsbury spots that feature in your fiction. (Ramsay Hall café? Local spots on Gower St? Add here.)
-      </div>
+      <div class="empty"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pen-line"/></svg><span>Add campus cafés, dining halls, and nearby Bloomsbury spots that feature in your fiction. (Ramsay Hall café? Local spots on Gower St? Add here.)</span></div>
     </div>
 
     <!-- HOUSING -->
     <div class="section" id="housing">
       <div class="section-header">
-        <span class="section-icon">🏠</span>
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-house"/></svg></span>
         <h2 class="section-title">Student Housing</h2>
-        <span class="wip-badge">WIP</span>
+        <span class="wip-badge"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>WIP</span>
       </div>
 
       <div class="cards-grid">
         <div class="card wip-card">
-          <div class="card-icon">🏠</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-house"/></svg></div>
           <div class="card-title">Ramsay Hall</div>
           <div class="card-desc">One of UCL's main halls of residence. Near Warren Street. Mostly first years. The social scene is intense for exactly six weeks, then fades.</div>
-          <div class="card-tags"><span class="tag">Real</span><span class="tag" style="background:#fef6e4;color:#b07820">Details WIP</span></div>
+          <div class="card-tags"><span class="tag">Real</span><span class="tag wip">Details WIP</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">🏢</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-building-2"/></svg></div>
           <div class="card-title">Private/Off-campus Housing</div>
           <div class="card-desc">Most students move to Camden, Islington, or East London after first year. Add character-specific addresses here.</div>
-          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag wip">WIP</span></div>
         </div>
       </div>
     </div>
@@ -938,28 +601,28 @@
     <!-- TRADITIONS -->
     <div class="section" id="traditions">
       <div class="section-header">
-        <span class="section-icon">🕯️</span>
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-scroll-text"/></svg></span>
         <h2 class="section-title">Traditions & Lore</h2>
       </div>
 
       <div class="cards-grid">
         <div class="card">
-          <div class="card-icon">💀</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-skull"/></svg></div>
           <div class="card-title">The Auto-Icon</div>
           <div class="card-desc">Jeremy Bentham's preserved body has been at UCL since 1850. Legend says his head (originally part of the display) was used as a football by medical students. The stories keep growing.</div>
           <div class="card-tags"><span class="tag accent">Lore</span><span class="tag">Real</span></div>
         </div>
         <div class="card">
-          <div class="card-icon">🎓</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-graduation-cap"/></svg></div>
           <div class="card-title">Graduation on the Steps</div>
           <div class="card-desc">The portico steps are where graduating students are photographed. Families travel from everywhere. The steps look exactly the same as they did in 1828.</div>
           <div class="card-tags"><span class="tag accent">Tradition</span></div>
         </div>
         <div class="card wip-card">
-          <div class="card-icon">🌙</div>
+          <div class="card-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-flame"/></svg></div>
           <div class="card-title">[ Fiction-specific tradition ]</div>
           <div class="card-desc">Add invented traditions or rituals that matter to your characters or plot here.</div>
-          <div class="card-tags"><span class="tag" style="background:#fef6e4;color:#b07820">Fiction</span><span class="tag" style="background:#fef6e4;color:#b07820">WIP</span></div>
+          <div class="card-tags"><span class="tag wip">Fiction</span><span class="tag wip">WIP</span></div>
         </div>
       </div>
     </div>
@@ -967,56 +630,225 @@
     <!-- NOTABLE ALUMNI -->
     <div class="section" id="notable">
       <div class="section-header">
-        <span class="section-icon">✨</span>
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-user-round"/></svg></span>
         <h2 class="section-title">Notable Alumni</h2>
-        <span class="wip-badge">WIP</span>
+        <span class="wip-badge"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>WIP</span>
       </div>
 
-      <div class="empty">
-        ✏️ Add real alumni relevant to your fiction's tone (Mahatma Gandhi, Alexander Graham Bell, Coldplay's Chris Martin) — or invent fictional "notable alumni" that shape your world.
-      </div>
+      <div class="empty"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pen-line"/></svg><span>Add real alumni relevant to your fiction's tone (Mahatma Gandhi, Alexander Graham Bell, Coldplay's Chris Martin) — or invent fictional "notable alumni" that shape your world.</span></div>
     </div>
+
+    <div class="section" id="departments">
+      <div class="section-header">
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-building-2"/></svg></span>
+        <h2 class="section-title">Departments</h2>
+        <span class="wip-badge"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>WIP</span>
+      </div>
+      <div class="empty"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pen-line"/></svg><span>Slide này đang chờ được viết thêm.</span></div>
+    </div>
+
+    <div class="section" id="libraries">
+      <div class="section-header">
+        <span class="section-icon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-library"/></svg></span>
+        <h2 class="section-title">Libraries</h2>
+        <span class="wip-badge"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>WIP</span>
+      </div>
+      <div class="empty"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pen-line"/></svg><span>Slide này đang chờ được viết thêm.</span></div>
+    </div>
+
+    <nav class="pager" id="pager" aria-label="Section pager"><button class="pager-btn" id="prevBtn" type="button"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-arrow-left"/></svg><span class="lbl"></span></button><span class="pager-count" id="pagerCount" aria-live="polite"></span><button class="pager-btn" id="nextBtn" type="button"><span class="lbl"></span><svg class="i i-next" aria-hidden="true" focusable="false"><use href="#i-arrow-right"/></svg></button></nav>
 
     <div style="height: 60px;"></div>
   </div>
 </div>
 
 <script>
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-  const menuBtn = document.getElementById('menuBtn');
-  const navItems = Array.from(document.querySelectorAll('.nav-item'));
-  const sections = navItems
-    .map(item => document.querySelector(item.getAttribute('href')))
-    .filter(Boolean);
+const root = document.documentElement;
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
-  function openMenu() {
-    sidebar.classList.add('open');
-    overlay.style.display = 'block';
+/* THEME: stored choice > system preference; initial attribute is set by the inline head script */
+const THEME_KEY = 'ucl-wiki-theme';
+const themeBtns = Array.from(document.querySelectorAll('[data-theme-toggle]'));
+const darkMq = matchMedia('(prefers-color-scheme: dark)');
+function storedTheme() {
+  try { const t = localStorage.getItem(THEME_KEY); return t === 'light' || t === 'dark' ? t : null; } catch (e) { return null; }
+}
+function applyTheme(t, animate) {
+  if (animate && !reduceMotion.matches) {
+    root.classList.add('theme-anim');
+    setTimeout(() => root.classList.remove('theme-anim'), 500);
   }
-  function closeMenu() {
-    sidebar.classList.remove('open');
-    overlay.style.display = 'none';
-  }
+  root.setAttribute('data-theme', t);
+  themeBtns.forEach(b => b.setAttribute('aria-checked', String(t === 'dark')));
+}
+themeBtns.forEach(b => b.addEventListener('click', () => {
+  const t = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
+  applyTheme(t, true);
+}));
+if (darkMq.addEventListener) darkMq.addEventListener('change', e => { if (!storedTheme()) applyTheme(e.matches ? 'dark' : 'light', true); });
+applyTheme(root.getAttribute('data-theme') || storedTheme() || (darkMq.matches ? 'dark' : 'light'));
 
-  menuBtn.addEventListener('click', () => {
-    sidebar.classList.contains('open') ? closeMenu() : openMenu();
+/* MOBILE MENU */
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebarOverlay');
+const menuBtn = document.getElementById('menuBtn');
+const closeBtn = document.getElementById('menuClose');
+const navItems = Array.from(document.querySelectorAll('.nav-item'));
+
+function openMenu() {
+  sidebar.classList.add('open');
+  overlay.classList.add('show');
+  menuBtn.classList.add('hidden');
+  menuBtn.setAttribute('aria-expanded', 'true');
+  closeBtn.focus({ preventScroll: true });
+}
+function closeMenu(restoreFocus) {
+  if (!sidebar.classList.contains('open')) return;
+  sidebar.classList.remove('open');
+  overlay.classList.remove('show');
+  menuBtn.classList.remove('hidden');
+  menuBtn.setAttribute('aria-expanded', 'false');
+  if (restoreFocus === true) menuBtn.focus({ preventScroll: true });
+}
+menuBtn.addEventListener('click', openMenu);
+closeBtn.addEventListener('click', () => closeMenu(true));
+overlay.addEventListener('click', () => closeMenu());
+navItems.forEach(item => item.addEventListener('click', () => closeMenu()));
+
+/* SLIDE MODE: one section per view */
+const slides = navItems.map(i => i.getAttribute('href').slice(1));
+const labels = navItems.map(i => i.textContent.replace(/\s+/g, ' ').trim());
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const pagerCount = document.getElementById('pagerCount');
+const barGroup = document.getElementById('barGroup');
+const barName = document.getElementById('barName');
+const pad = n => String(n).padStart(2, '0');
+let current = 0;
+
+// archival folio line above each section title + stagger index for entrance animation
+navItems.forEach((item, n) => {
+  const sec = document.getElementById(slides[n]);
+  const header = sec && sec.querySelector('.section-header');
+  if (!header) return;
+  const group = item.closest('.nav-section').querySelector('.nav-label').textContent.trim();
+  const folio = document.createElement('div');
+  folio.className = 'folio';
+  folio.setAttribute('aria-hidden', 'true');
+  folio.innerHTML = '<b>' + pad(n + 1) + '</b><span>—</span><span>' + group + '</span>';
+  header.insertBefore(folio, header.firstChild);
+});
+document.querySelectorAll('.cards-grid, .two-col, .timeline').forEach(g =>
+  Array.from(g.children).forEach((c, i) => c.style.setProperty('--d', i)));
+
+function show(index) {
+  const prevIndex = current;
+  current = Math.max(0, Math.min(slides.length - 1, index));
+  const dir = current >= prevIndex ? 1 : -1;
+  const id = slides[current];
+  const isOverview = id === 'overview';
+
+  document.getElementById('overview').classList.toggle('active', isOverview);
+  document.querySelectorAll('.section[id]').forEach(sec => {
+    const on = isOverview ? sec.id === 'about' : sec.id === id;
+    sec.classList.toggle('active', on);
   });
-  overlay.addEventListener('click', closeMenu);
-  navItems.forEach(item => item.addEventListener('click', closeMenu));
+  document.body.classList.toggle('inner', !isOverview);
+  navItems.forEach((item, n) => {
+    item.classList.toggle('active', n === current);
+    if (n === current) item.setAttribute('aria-current', 'page'); else item.removeAttribute('aria-current');
+  });
 
-  // Scrollspy: highlight the nav item for the section currently in view
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const id = '#' + entry.target.id;
-      navItems.forEach(item => {
-        item.classList.toggle('active', item.getAttribute('href') === id);
-      });
+  const hasPrev = current > 0, hasNext = current < slides.length - 1;
+  prevBtn.classList.toggle('off', !hasPrev); prevBtn.disabled = !hasPrev;
+  nextBtn.classList.toggle('off', !hasNext); nextBtn.disabled = !hasNext;
+  prevBtn.querySelector('.lbl').textContent = hasPrev ? labels[current - 1] : '';
+  nextBtn.querySelector('.lbl').textContent = hasNext ? labels[current + 1] : '';
+  prevBtn.setAttribute('aria-label', hasPrev ? 'Previous: ' + labels[current - 1] : '');
+  nextBtn.setAttribute('aria-label', hasNext ? 'Next: ' + labels[current + 1] : '');
+  pagerCount.textContent = pad(current + 1) + ' / ' + pad(slides.length);
+  barName.textContent = labels[current];
+  barGroup.textContent = navItems[current].closest('.nav-section').querySelector('.nav-label').textContent.trim();
+
+  window.scrollTo({ top: 0, behavior: 'auto' });
+
+  const animName = dir > 0 ? 'slideFromRight' : 'slideFromLeft';
+  const targets = isOverview
+    ? [document.getElementById('overview'), document.getElementById('about')]
+    : [document.getElementById(id)];
+  targets.forEach(el => {
+    if (!el) return;
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = animName + ' .6s cubic-bezier(.2,.7,.2,1)';
+  });
+  try { history.replaceState(null, '', '#' + id); } catch (e) {}
+}
+
+/* SIDEBAR SEARCH: filters the nav list; Enter opens the first match */
+const searchInput = document.getElementById('navSearch');
+const searchClear = document.getElementById('navSearchClear');
+const searchEmpty = document.getElementById('navSearchEmpty');
+const navGroups = Array.from(document.querySelectorAll('.nav-section'));
+const fold = t => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+
+function filterNav() {
+  const q = fold(searchInput.value);
+  let any = false;
+  navGroups.forEach(g => {
+    const groupName = fold(g.querySelector('.nav-label').textContent);
+    let visible = 0;
+    g.querySelectorAll('.nav-item').forEach(item => {
+      const ok = !q || fold(labels[navItems.indexOf(item)]).includes(q) || groupName.includes(q);
+      item.classList.toggle('is-filtered', !ok);
+      if (ok) visible++;
     });
-  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    g.classList.toggle('is-filtered', !visible);
+    if (visible) any = true;
+  });
+  searchEmpty.hidden = any;
+}
+function clearSearch() { searchInput.value = ''; filterNav(); }
 
-  sections.forEach(section => spy.observe(section));
+searchInput.addEventListener('input', filterNav);
+searchInput.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const first = navItems.findIndex(i => !i.classList.contains('is-filtered'));
+  if (first >= 0) { show(first); closeMenu(); }
+});
+searchClear.addEventListener('click', () => { clearSearch(); searchInput.focus(); });
+
+navItems.forEach((item, n) => item.addEventListener('click', e => { e.preventDefault(); show(n); }));
+prevBtn.addEventListener('click', () => show(current - 1));
+nextBtn.addEventListener('click', () => show(current + 1));
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (e.target === searchInput && searchInput.value) { clearSearch(); return; }
+    closeMenu(true);
+    return;
+  }
+  if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.key === '/') {
+    e.preventDefault();
+    if (matchMedia('(max-width: 900px)').matches) openMenu();
+    searchInput.focus();
+    return;
+  }
+  if (e.shiftKey) return;
+  if (e.key === 'ArrowRight') show(current + 1);
+  if (e.key === 'ArrowLeft') show(current - 1);
+});
+window.addEventListener('hashchange', () => {
+  const i = slides.indexOf(location.hash.slice(1));
+  if (i >= 0 && i !== current) show(i);
+});
+
+let start = 0;
+try { start = Math.max(0, slides.indexOf(location.hash.slice(1))); } catch (e) {}
+show(start);
+
 </script>
 
 </body>
